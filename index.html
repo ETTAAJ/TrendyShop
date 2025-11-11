@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TrendyShop - Modern E-Commerce</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- AOS (Animate On Scroll) Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Poppins', sans-serif; }
+    html { scroll-behavior: smooth; }
+    .product-card { transition: all 0.4s ease; }
+    .product-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    .floating { animation: float 6s ease-in-out infinite; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    .pulse { animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .slide-in { animation: slideIn 0.8s ease-out; }
+    @keyframes slideIn {
+      from { transform: translateX(-100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .marquee {
+      overflow: hidden;
+      white-space: nowrap;
+      animation: marquee 15s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-lg z-50 transition-all duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center">
+          <h1 class="text-2xl font-bold text-indigo-600 slide-in">TrendyShop</h1>
+        </div>
+        <div class="hidden md:flex space-x-8">
+          <a href="#home" class="text-gray-700 hover:text-indigo-600 font-medium transition">Home</a>
+          <a href="#products" class="text-gray-700 hover:text-indigo-600 font-medium transition">Products</a>
+          <a href="#featured" class="text-gray-700 hover:text-indigo-600 font-medium transition">Featured</a>
+          <a href="#about" class="text-gray-700 hover:text-indigo-600 font-medium transition">About</a>
+          <a href="#contact" class="text-gray-700 hover:text-indigo-600 font-medium transition">Contact</a>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button class="relative p-2 text-gray-700 hover:text-indigo-600">
+            <i class="fas fa-search text-xl"></i>
+          </button>
+          <button class="relative p-2 text-gray-700 hover:text-indigo-600" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart text-xl"></i>
+            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Cart Sidebar -->
+  <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-500 z-50 overflow-y-auto">
+    <div class="p-6">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Your Cart</h2>
+        <button onclick="toggleCart()" class="text-gray-500 hover:text-red-600">
+          <i class="fas fa-times text-2xl"></i>
+        </button>
+      </div>
+      <div id="cart-items" class="space-y-4">
+        <!-- Cart items will be injected via JS -->
+      </div>
+      <div class="mt-8">
+        <div class="flex justify-between text-lg font-semibold">
+          <span>Total:</span>
+          <span id="cart-total">$0.00</span>
+        </div>
+        <button class="w-full mt-4 bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition pulse">
+          Checkout Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="home" class="pt-16 min-h-screen flex items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-20"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div data-aos="fade-right" data-aos-duration="1000">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            Shop the Future<br><span class="text-yellow-300">Today</span>
+          </h1>
+          <p class="text-lg mb-8 text-gray-100">
+            Discover premium products with exclusive deals. Fast shipping, secure payment, and 24/7 support.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#products" class="bg-white text-indigo-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition pulse">
+              Shop Now
+            </a>
+            <a href="#featured" class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-indigo-600 transition">
+              View Deals
+            </a>
+          </div>
+        </div>
+        <div data-aos="fade-left" data-aos-duration="1000" class="floating">
+          <img src="https://images.unsplash.com/photo-1441986300917-6467289c93d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Featured Product" class="rounded-2xl shadow-2xl w-full">
+        </div>
+      </div>
+    </div>
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <a href="#products"><i class="fas fa-chevron-down text-4xl text-white"></i></a>
+    </div>
+  </section>
+
+  <!-- Marquee Banner -->
+  <div class="bg-indigo-600 text-white py-3 marquee">
+    <p class="text-center font-semibold">🔥 BLACK FRIDAY SALE: UP TO 70% OFF + FREE SHIPPING ON ORDERS OVER $50 🔥</p>
+  </div>
+
+  <!-- Categories -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold text-center mb-12" data-aos="fade-up">Shop by Category</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- Category Cards -->
+        <div class="group relative overflow-hidden rounded-xl shadow-lg" data-aos="zoom-in" data-aos-delay="100">
+          <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Electronics" class="w-full h-48 object-cover group-hover:scale-110 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 text-white">
+            <h3 class="text-xl font-bold">Electronics</h3>
+          </div>
+        </div>
+        <div class="group relative overflow-hidden rounded-xl shadow-lg" data-aos="zoom-in" data-aos-delay="200">
+          <img src="https://images.unsplash.com/photo-1542272201-b1ca555f8505?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Fashion" class="w-full h-48 object-cover group-hover:scale-110 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 text-white">
+            <h3 class="text-xl font-bold">Fashion</h3>
+          </div>
+        </div>
+        <div class="group relative overflow-hidden rounded-xl shadow-lg" data-aos="zoom-in" data-aos-delay="300">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Home" class="w-full h-48 object-cover group-hover:scale-110 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 text-white">
+            <h3 class="text-xl font-bold">Home & Living</h3>
+          </div>
+        </div>
+        <div class="group relative overflow-hidden rounded-xl shadow-lg" data-aos="zoom-in" data-aos-delay="400">
+          <img src="https://images.unsplash.com/photo-1516979187457-637abb4f4733?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Sports" class="w-full h-48 object-cover group-hover:scale-110 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+          <div class="absolute bottom-4 left-4 text-white">
+            <h3 class="text-xl font-bold">Sports</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="products" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold text-center mb-12" data-aos="fade-up">Featured Products</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Product Cards -->
+        <div class="bg-white rounded-2xl overflow-hidden shadow-lg product-card" data-aos="fade-up" data-aos-delay="100" onclick="addToCart('Wireless Headphones', 99.99, 'https://images.unsplash.com/photo-1505740420928-3ebfa8f6d529?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80')">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1505740420928-3ebfa8f6d529?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Headphones" class="w-full h-56 object-cover">
+            <span class="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">-30%</span>
+          </div>
+          <div class="p-5">
+            <h3 class="text-lg font-semibold mb-2">Wireless Headphones</h3>
+            <div class="flex items-center mb-2">
+              <span class="text-yellow-500">★★★★★</span>
+              <span class="text-gray-500 text-sm ml-1">(4.8)</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <div>
+                <span class="text-2xl font-bold text-indigo-600">$99.99</span>
+                <span class="text-sm text-gray-500 line-through ml-2">$139.99</span>
+              </div>
+              <button class="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl overflow-hidden shadow-lg product-card" data-aos="fade-up" data-aos-delay="200" onclick="addToCart('Smart Watch Pro', 249.99, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80')">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Smart Watch" class="w-full h-56 object-cover">
+            <span class="absolute top-3 left-3 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold">NEW</span>
+          </div>
+          <div class="p-5">
+            <h3 class="text-lg font-semibold mb-2">Smart Watch Pro</h3>
+            <div class="flex items-center mb-2">
+              <span class="text-yellow-500">★★★★☆</span>
+              <span class="text-gray-500 text-sm ml-1">(4.5)</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-2xl font-bold text-indigo-600">$249.99</span>
+              <button class="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl overflow-hidden shadow-lg product-card" data-aos="fade-up" data-aos-delay="300" onclick="addToCart('Leather Jacket', 179.99, 'https://images.unsplash.com/photo-1551028719-00167b16eac5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80')">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Jacket" class="w-full h-56 object-cover">
+            <span class="absolute top-3 right-3 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">HOT</span>
+          </div>
+          <div class="p-5">
+            <h3 class="text-lg font-semibold mb-2">Premium Leather Jacket</h3>
+            <div class="flex items-center mb-2">
+              <span class="text-yellow-500">★★★★★</span>
+              <span class="text-gray-500 text-sm ml-1">(5.0)</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-2xl font-bold text-indigo-600">$179.99</span>
+              <button class="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl overflow-hidden shadow-lg product-card" data-aos="fade-up" data-aos-delay="400" onclick="addToCart('Running Shoes', 89.99, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80')">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Shoes" class="w-full h-56 object-cover">
+          </div>
+          <div class="p-5">
+            <h3 class="text-lg font-semibold mb-2">Ultra Comfort Shoes</h3>
+            <div class="flex items-center mb-2">
+              <span class="text-yellow-500">★★★★☆</span>
+              <span class="text-gray-500 text-sm ml-1">(4.6)</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <div>
+                <span class="text-2xl font-bold text-indigo-600">$89.99</span>
+                <span class="text-sm text-gray-500 line-through ml-2">$129.99</span>
+              </div>
+              <button class="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-12">
+        <a href="#" class="inline-block bg-indigo-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-indigo-700 transition">
+          View All Products
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Deals -->
+  <section id="featured" class="py-20 bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold text-center mb-12" data-aos="fade-up">Flash Sale - Limited Time!</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 text-center" data-aos="flip-left">
+          <div class="text-5xl font-bold mb-2">70%</div>
+          <p class="text-xl">OFF on Fashion</p>
+          <p class="text-sm mt-2">Ends in 24 hours</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 text-center" data-aos="flip-left" data-aos-delay="200">
+          <div class="text-5xl font-bold mb-2">50%</div>
+          <p class="text-xl">OFF on Electronics</p>
+          <p class="text-sm mt-2">Limited Stock</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 text-center" data-aos="flip-left" data-aos-delay="400">
+          <div class="text-5xl font-bold mb-2">FREE</div>
+          <p class="text-xl">Shipping Worldwide</p>
+          <p class="text-sm mt-2">On orders over $50</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div data-aos="fade-right">
+          <h2 class="text-4xl font-bold mb-6">Why Choose TrendyShop?</h2>
+          <p class="text-lg text-gray-600 mb-6">
+            We bring you the best products from around the world with unbeatable prices and exceptional service.
+          </p>
+          <ul class="space-y-4">
+            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> <span>100% Authentic Products</span></li>
+            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> <span>Fast & Secure Shipping</span></li>
+            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> <span>24/7 Customer Support</span></li>
+            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> <span>Easy Returns</span></li>
+          </ul>
+        </div>
+        <div data-aos="fade-left">
+          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="About Us" class="rounded-2xl shadow-2xl">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="py-16 bg-indigo-600 text-white">
+    <div class="max-w-4xl mx-auto text-center px-4">
+      <h2 class="text-3xl font-bold mb-4" data-aos="zoom-in">Stay Updated!</h2>
+      <p class="mb-8" data-aos="fade-up" data-aos-delay="200">Subscribe to get exclusive deals and new arrivals.</p>
+      <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" data-aos="fade-up" data-aos-delay="400">
+        <input type="email" placeholder="Enter your email" class="flex-1 px-6 py-3 rounded-full text-gray-800 focus:outline-none">
+        <button type="submit" class="bg-white text-indigo-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition">
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" class="bg-gray-900 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-2xl font-bold mb-4">TrendyShop</h3>
+          <p class="text-gray-400">Your one-stop shop for everything trendy and affordable.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Quick Links</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-white transition">About Us</a></li>
+            <li><a href="#" class="hover:text-white transition">Contact</a></li>
+            <li><a href="#" class="hover:text-white transition">FAQs</a></li>
+            <li><a href="#" class="hover:text-white transition">Shipping</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Categories</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-white transition">Electronics</a></li>
+            <li><a href="#" class="hover:text-white transition">Fashion</a></li>
+            <li><a href="#" class="hover:text-white transition">Home</a></li>
+            <li><a href="#" class="hover:text-white transition">Sports</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Follow Us</h4>
+          <div class="flex space-x-4">
+            <a href="#" class="text-2xl hover:text-indigo-400 transition"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="text-2xl hover:text-indigo-400 transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-2xl hover:text-indigo-400 transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-2xl hover:text-indigo-400 transition"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+        <p>&copy; 2025 TrendyShop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Initialize AOS
+    AOS.init({ once: true });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-xl', 'bg-white/98');
+      } else {
+        navbar.classList.remove('shadow-xl', 'bg-white/98');
+      }
+    });
+
+    // Cart functionality
+    let cart = [];
+    let cartTotal = 0;
+
+    function toggleCart() {
+      const sidebar = document.getElementById('cart-sidebar');
+      sidebar.classList.toggle('translate-x-0');
+      sidebar.classList.toggle('translate-x-full');
+      if (!sidebar.classList.contains('translate-x-full')) {
+        renderCart();
+      }
+    }
+
+    function addToCart(name, price, image) {
+      cart.push({ name, price, image });
+      cartTotal += price;
+      document.querySelector('.bg-red-500 span').textContent = cart.length;
+      alert(`${name} added to cart!`);
+    }
+
+    function renderCart() {
+      const cartItems = document.getElementById('cart-items');
+      const totalEl = document.getElementById('cart-total');
+      cartItems.innerHTML = '';
+      cart.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'flex items-center space-x-4 p-4 bg-gray-50 rounded-lg';
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+          <div class="flex-1">
+            <h4 class="font-semibold">${item.name}</h4>
+            <p class="text-indigo-600">$${item.price.toFixed(2)}</p>
+          </div>
+          <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700">
+            <i class="fas fa-trash"></i>
+          </button>
+        `;
+        cartItems.appendChild(div);
+      });
+      totalEl.textContent = `$${cartTotal.toFixed(2)}`;
+    }
+
+    function removeFromCart(index) {
+      cartTotal -= cart[index].price;
+      cart.splice(index, 1);
+      document.querySelector('.bg-red-500 span').textContent = cart.length;
+      renderCart();
+    }
+
+    // Smooth scroll for all links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
